@@ -1,0 +1,107 @@
+body,
+html {
+  height: 100%;
+}
+
+.background {
+  /* The image used */
+  background-image: url("../images/news-link.jpg");
+  /* Full height */
+  height: 100%;
+  background-color: rgb(26, 37, 74);
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+div.transbox {
+  background-color: rgba(16, 32, 90, 0.39);
+  height: 100%;
+  color: white;
+}
+.home-text {
+  font-family: "Roboto";
+  font-style: italic;
+  font-weight: normal;
+  text-align: center;
+}
+.site-info {
+  font-size: 2em;
+  text-shadow: 4px 0px 0px #121213;
+}
+.header {
+  text-shadow: 8px 0px 1px rgba(45, 57, 97, 0.85);
+  font-size: 5em;
+}
+.onboard {
+  justify-content: center;
+}
+.onboard button {
+  background-color: #242177bf;
+  color: white;
+  box-shadow: 6px 6px 2px rgba(229, 229, 229, 0.35);
+  border-radius: 0;
+}
+
+.container {
+  max-width: 100%;
+}
+.login-panel {
+  margin-top: 20%;
+  padding-top: 15%;
+  padding-right: 10%;
+  padding-bottom: 15%;
+  padding-left: 10%;
+  background: rgba(45, 57, 97, 0.85);
+  box-shadow: 10px 10px 1px rgba(247, 243, 243, 0.25);
+}
+.login-panel button {
+  width: 100%;
+}
+.col-sm-7.home-text {
+  padding-top: 5%;
+}
+.login-panel input.form-control {
+  color: white;
+  background-color: rgba(45, 57, 97, 0.07);
+  border-right: 0;
+  border-left: 0;
+  border-top: 0;
+  border-radius: 0;
+  border-bottom-width: 2px;
+}
+
+.input-group .fa {
+  font-size: x-large;
+  padding-top: 0.4em;
+  border-bottom: solid;
+  border-width: 0.08em;
+  border-color: #dee2e6;
+}
+.login-panel button {
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.25);
+}
+.site-logo {
+  width: 80px;
+  filter: brightness(0) invert(1);
+  margin-left: 32%;
+  margin-bottom: 2em;
+}
+.form-group button {
+  margin-top: 1.5em;
+}
+.login-socials {
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  width: 50px;
+  margin-right: 2em;
+}
+.social-auths {
+  text-align: center;
+}
+.google-plus {
+  filter: brightness(0) invert(1);
+  width: 50px;
+  margin-right: 2em;
+}

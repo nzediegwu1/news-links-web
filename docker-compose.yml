@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  news-link-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: yarn start
+    image: news-link-web
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/myapp

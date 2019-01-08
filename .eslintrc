@@ -1,0 +1,13 @@
+{
+  "extends": ["airbnb", "plugin:jsx-a11y/recommended"],
+  "plugins": ["jsx-a11y"],
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "rules": {
+    "import/no-named-as-default-member": 0,
+    "import/no-named-as-default": 0
+  }
+}
