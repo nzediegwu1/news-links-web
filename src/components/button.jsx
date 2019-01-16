@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-export default function Button({ text, css }) {
+/* eslint-disable react/button-has-type */
+export default function Button(props) {
+  const { text, css, action, dismiss, type = 'button' } = props;
   return (
-    <button type="button" className={`btn ${css}`}>
+    <button type={type} data-dismiss={dismiss} onClick={action} className={`btn ${css}`}>
       {text}
     </button>
   );
@@ -12,8 +13,12 @@ export default function Button({ text, css }) {
 Button.propTypes = {
   text: PropTypes.string.isRequired,
   css: PropTypes.string,
+  action: PropTypes.func,
+  dismiss: PropTypes.string,
 };
 
 Button.defaultProps = {
   css: 'btn-lg',
+  action: null,
+  dismiss: null,
 };
