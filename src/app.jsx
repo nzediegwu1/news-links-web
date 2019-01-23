@@ -13,7 +13,7 @@ const httpLink = createHttpLink({
 const authLink = setContext((_, { headers }) => ({
   headers: {
     ...headers,
-    authorization: `Bearer ${localStorage.getItem('token')}`,
+    authorization: `Bearer ${localStorage.token}`,
   },
 }));
 const client = new ApolloClient({

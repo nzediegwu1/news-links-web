@@ -1,25 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 import Button from '../components/button';
 import CreateLinkModal from '../components/modal';
 import LinkForm from './linkForm';
-/* eslint-disable jsx-a11y/anchor-is-valid */
-const FEED_QUERY = gql`
-  {
-    feed {
-      count
-      links {
-        id
-        title
-        description
-        url
-        imageUrl
-        createdAt
-      }
-    }
-  }
-`;
+import { FEED_QUERY } from '../graphql';
 
 const navItems = ['Users', 'Links', 'Picks']; // add icons for each item
 const navOptions = [
@@ -29,7 +14,7 @@ const navOptions = [
 ];
 export default class LinksPage extends Component {
   card = link => (
-    <div key={link.id} className="card">
+    <div key={link.id} className="card masonry-brick">
       <img className="card-img-top" src={link.imageUrl} alt="news_link" />
       <div className="card-body">
         <h5 className="card-title">{link.title}</h5>
@@ -96,15 +81,11 @@ export default class LinksPage extends Component {
             <React.Fragment>
               {this.navBar()}
               {this.nav()}
-              <div className="card-columns">{linksToRender.map(link => this.card(link))}</div>
+              <div className="masonry">{linksToRender.map(link => this.card(link))}</div>
               <a data-toggle="modal" data-target="#createLink" className="float">
                 <i className="fa fa-plus my-float" />
               </a>
-              <CreateLinkModal
-                id="createLink"
-                title="Create News Link"
-                render={<LinkForm />}
-              />
+              <CreateLinkModal id="createLink" title="Create News Link" render={<LinkForm />} />
             </React.Fragment>
           );
         }}

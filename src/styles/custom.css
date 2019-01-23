@@ -109,26 +109,17 @@ div.transbox {
 .card-text {
   color: black;
 }
-
-.card-columns {
-  margin-right: 2em;
-  padding-bottom: 1.5em;
-  background-color: #c6ccd4;
-}
-
 .navbar-nav li {
   padding-right: 0.5em;
 }
 .btn-outline-secondary {
   color: white;
 }
+
 @media (max-width: 767px) {
   .btn-outline-secondary {
     width: 100%;
     padding-right: 0;
-  }
-  .card-columns {
-    margin-right: 0em;
   }
   .form-inline .form-control {
     width: 100%;
@@ -182,4 +173,46 @@ body {
 }
 .createLink {
   width: 100%;
+  margin-top: 1em;
+}
+
+.masonry {
+  display: flex;
+  flex-flow: row wrap;
+  margin-left: -8px; /* Adjustment for the gutter */
+  width: 100%;
+  padding-bottom: 1.5em;
+  background-color: #c6ccd4;
+  padding-left: 1.5em;
+}
+
+.masonry-brick {
+  flex: auto;
+  height: 250px;
+  width: 250px;
+  margin: 0 8px 8px 0; /* Some gutter */
+}
+
+.input-group .fa {
+  color: black;
+  padding: 0.4em;
+  background: #e7ecef;
+  border-width: thin;
+  border-color: black;
+}
+form {
+  color: black;
+}
+#linkImageInput {
+  display: none;
+}
+.col-sm-4 button {
+  margin-bottom: 1em;
+  margin-top: 0.5em;
+}
+.modal-header {
+  border-bottom: 1px solid #0054e7;
+}
+.modal-footer {
+  border-top: 1px solid #0054e7;
 }
