@@ -15,10 +15,14 @@ const navOptions = [
 export default class LinksPage extends Component {
   card = link => (
     <div key={link.id} className="card masonry-brick">
-      <img className="card-img-top" src={link.imageUrl} alt="news_link" />
       <div className="card-body">
-        <h5 className="card-title">{link.title}</h5>
-        <p className="card-text">{link.description}</p>
+        <div className="card-content">
+          <img className="card-img-top" src={link.imageUrl} alt="news_link" />
+        </div>
+        <div>
+          <h5 className="card-title">{link.title}</h5>
+          <p className="card-text">{link.description}</p>
+        </div>
       </div>
       <div className="card-footer">
         <a href={link.url} className="btn btn-primary btn-sm" role="button">
@@ -72,24 +76,34 @@ export default class LinksPage extends Component {
 
   render() {
     return (
-      <Query query={FEED_QUERY}>
-        {({ loading, error, data }) => {
-          if (loading) return <div>Loading...</div>;
-          if (error) return <div>Error occured</div>;
-          const linksToRender = data.feed.links;
-          return (
-            <React.Fragment>
-              {this.navBar()}
-              {this.nav()}
-              <div className="masonry">{linksToRender.map(link => this.card(link))}</div>
-              <a data-toggle="modal" data-target="#createLink" className="float">
-                <i className="fa fa-plus my-float" />
-              </a>
-              <CreateLinkModal id="createLink" title="Create News Link" render={<LinkForm />} />
-            </React.Fragment>
-          );
-        }}
-      </Query>
+      <React.Fragment>
+        {this.navBar()}
+        {this.nav()}
+        <Query query={FEED_QUERY}>
+          {({ loading, error, data }) => {
+            if (loading) return <div className="error">loading...</div>;
+            if (error) {
+              return (
+                <div className="error">
+                  <i className="fa fa-warning" />
+                  <br />
+                  <p>{error.message}</p>
+                </div>
+              );
+            }
+            const linksToRender = data.feed.links;
+            return (
+              <React.Fragment>
+                <div className="masonry">{linksToRender.map(link => this.card(link))}</div>
+                <a data-toggle="modal" data-target="#createLink" className="float">
+                  <i className="fa fa-plus my-float" />
+                </a>
+                <CreateLinkModal id="createLink" title="Create News Link" render={<LinkForm />} />
+              </React.Fragment>
+            );
+          }}
+        </Query>
+      </React.Fragment>
     );
   }
 }

@@ -188,7 +188,6 @@ body {
 
 .masonry-brick {
   flex: auto;
-  height: 250px;
   width: 250px;
   margin: 0 8px 8px 0; /* Some gutter */
 }
@@ -203,9 +202,7 @@ body {
 form {
   color: black;
 }
-#linkImageInput {
-  display: none;
-}
+
 .col-sm-4 button {
   margin-bottom: 1em;
   margin-top: 0.5em;
@@ -215,4 +212,25 @@ form {
 }
 .modal-footer {
   border-top: 1px solid #0054e7;
+}
+.error {
+  font-size: 4em;
+  text-align: center;
+  color: black;
+}
+.card-content {
+  max-width: 40%;
+  margin: auto;
+}
+.card-body {
+  max-height: 80%;
+}
+.description {
+  margin-bottom: 0.3em;
+}
+.link-dp {
+  margin-left: 0.5em;
+}
+.col-sm-4.text-center {
+  padding: 0em;
 }

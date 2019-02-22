@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 /* eslint-disable react/button-has-type */
 export default function Button(props) {
   const { text, css, action, dismiss, type = 'button' } = props;
@@ -11,10 +11,10 @@ export default function Button(props) {
 }
 
 Button.propTypes = {
-  text: PropTypes.string.isRequired,
-  css: PropTypes.string,
-  action: PropTypes.func,
-  dismiss: PropTypes.string,
+  text: propTypes.string.isRequired,
+  css: propTypes.string,
+  action: propTypes.func,
+  dismiss: propTypes.string,
 };
 
 Button.defaultProps = {
