@@ -1,7 +1,7 @@
 # News-Link-Web
 A React-Apollo-GraphQL app for managing popular news links. Users can vote their favourite news links and let the world know what's trending
 
-[![CircleCI](https://circleci.com/gh/nzediegwu1/news-link-web.svg?style=svg)](https://circleci.com/gh/nzediegwu1/news-link-web)  [![Maintainability](https://api.codeclimate.com/v1/badges/13e9ebc7d7890c47104c/maintainability)](https://codeclimate.com/github/nzediegwu1/news-link-web/maintainability)  [![Test Coverage](https://api.codeclimate.com/v1/badges/13e9ebc7d7890c47104c/test_coverage)](https://codeclimate.com/github/nzediegwu1/news-link-web/test_coverage)
+[![CircleCI](https://circleci.com/gh/nzediegwu1/news-link-web.svg?style=svg)](https://circleci.com/gh/nzediegwu1/news-link-web)  [![Maintainability](https://api.codeclimate.com/v1/badges/9d227e5b82c1ea1aa81f/maintainability)](https://codeclimate.com/github/nzediegwu1/news-link-web/maintainability)  [![Test Coverage](https://api.codeclimate.com/v1/badges/13e9ebc7d7890c47104c/test_coverage)](https://codeclimate.com/github/nzediegwu1/news-link-web/test_coverage)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

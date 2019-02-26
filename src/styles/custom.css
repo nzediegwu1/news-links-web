@@ -16,7 +16,7 @@ html {
 }
 
 div.transbox {
-  background-color: rgba(16, 32, 90, 0.39);
+  background-color: #fcfcfdc7; /* or #bdc1d212 */
   height: 100%;
   color: white;
 }
@@ -27,12 +27,12 @@ div.transbox {
   text-align: center;
 }
 .site-info {
-  font-size: 2em;
-  text-shadow: 4px 0px 0px #121213;
+  font-size: 2.8em;
+  color: black;
 }
 .header {
-  text-shadow: 8px 0px 1px rgba(45, 57, 97, 0.85);
-  font-size: 5em;
+  font-size: 5.5em;
+  color: black;
 }
 .onboard {
   justify-content: center;
@@ -40,7 +40,7 @@ div.transbox {
 .onboard button {
   background-color: #242177bf;
   color: white;
-  box-shadow: 6px 6px 2px rgba(229, 229, 229, 0.35);
+  box-shadow: 0px 0px 10px 5px rgba(229, 229, 229, 0.35);
   border-radius: 0;
 }
 
@@ -54,7 +54,7 @@ div.transbox {
   padding-bottom: 15%;
   padding-left: 10%;
   background: rgba(45, 57, 97, 0.85);
-  box-shadow: 10px 10px 1px rgba(247, 243, 243, 0.25);
+  box-shadow: 1px 1px 20px 3px #f8f9fa;
 }
 .login-panel button {
   width: 100%;
@@ -104,4 +104,135 @@ div.transbox {
   filter: brightness(0) invert(1);
   width: 50px;
   margin-right: 2em;
+}
+.navbar-nav li {
+  padding-right: 0.5em;
+}
+.btn-outline-secondary {
+  color: white;
+}
+
+@media (max-width: 767px) {
+  .btn-outline-secondary {
+    width: 100%;
+    padding-right: 0;
+  }
+  .form-inline .form-control {
+    width: 100%;
+  }
+}
+.nav {
+  background-color: #0c57de;
+  margin-bottom: 0.5em;
+  border: 0;
+}
+a {
+  color: white;
+}
+a:hover {
+  color: black;
+}
+/* Float icon button */
+.float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  background-color: #0c57de;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+}
+
+.my-float {
+  margin-top: 22px;
+}
+/* End Float action button */
+.card {
+  margin: 1em;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #0c57de;
+  border-color: #0c57de;
+}
+.form-inline {
+  padding-right: 0.5em;
+}
+body {
+  background-color: #00234d;
+}
+.modal-title {
+  color: black;
+}
+.createLink {
+  width: 100%;
+  margin-top: 1em;
+}
+
+.masonry {
+  display: flex;
+  flex-flow: row wrap;
+  margin-left: -8px; /* Adjustment for the gutter */
+  width: 100%;
+  padding-bottom: 1.5em;
+  background-color: #c6ccd4;
+  padding-left: 1.5em;
+}
+
+.masonry-brick {
+  flex: auto;
+  width: 250px;
+  margin: 0.5em;
+}
+
+.input-group .fa {
+  color: black;
+  padding: 0.4em;
+  background: #e7ecef;
+  border-width: thin;
+  border-color: black;
+}
+form {
+  color: black;
+}
+
+.col-sm-4 button {
+  margin-bottom: 1em;
+  margin-top: 0.5em;
+}
+.modal-header {
+  border-bottom: 1px solid #0054e7;
+}
+.modal-footer {
+  border-top: 1px solid #0054e7;
+}
+.error {
+  font-size: 4em;
+  text-align: center;
+  color: black;
+}
+.card-content {
+  margin: auto;
+}
+.description {
+  margin-bottom: 0.3em;
+}
+.link-dp {
+  margin-left: 0.5em;
+}
+.col-sm-4.text-center {
+  padding: 0em;
+}
+.card-body {
+  padding: 0.5em;
+}
+.card-title,
+.card-text {
+  color: black;
+}
+.card-title {
+  margin-top: 0.3em;
 }

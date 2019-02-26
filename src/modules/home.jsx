@@ -5,17 +5,18 @@ import SocialAuths from '../components/socialAuths';
 import { siteInfo } from '../messages/info';
 
 export default class Home extends React.Component {
-  LeftColumn = () => (
-    <div className="col-sm-7 home-text">
-      <h1 className="header">News Link</h1>
-      <p className="site-info">{siteInfo}</p>
-      <div className="row onboard">
-        <Button text="Get Started" />
-        &nbsp;
-        <Button text="Discover More" />
+  LeftColumn = () => {
+    const { history } = this.props;
+    return (
+      <div className="col-sm-7 home-text">
+        <h1 className="header">News Link</h1>
+        <p className="site-info">{siteInfo}</p>
+        <div className="onboard">
+          <Button text="Discover More" action={() => history.push('/links')} />
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   RightColumn = () => (
     <div className="col-sm-5">
@@ -35,7 +36,7 @@ export default class Home extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="background container">
         <div className="row">
           {this.LeftColumn()}
           {this.RightColumn()}

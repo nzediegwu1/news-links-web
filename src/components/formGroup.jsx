@@ -1,12 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function FormGroup({ type, placeholder, icon }) {
+export default function FormGroup(props) {
+  const { id, type, placeholder, required, value, icon, onChange, name } = props;
   return (
-    <div className="form-group">
+    <div id={id} className="form-group">
       <div className="input-group input-group-lg">
         <i className={`fa ${icon}`} />
-        <input type={type} className="form-control" placeholder={placeholder} />
+        <input
+          id={`input-${id}`}
+          name={name}
+          value={value}
+          onChange={onChange}
+          type={type}
+          required={required}
+          className="form-control"
+          placeholder={placeholder}
+        />
       </div>
     </div>
   );
