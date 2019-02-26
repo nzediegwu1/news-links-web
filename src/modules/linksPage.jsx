@@ -18,14 +18,18 @@ export default class LinksPage extends Component {
       <div className="card-body">
         <div className="card-content">
           <img className="card-img-top" src={link.imageUrl} alt="news_link" />
-        </div>
-        <div>
           <h5 className="card-title">{link.title}</h5>
           <p className="card-text">{link.description}</p>
         </div>
       </div>
       <div className="card-footer">
-        <a href={link.url} className="btn btn-primary btn-sm" role="button">
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-primary btn-sm"
+          role="button"
+        >
           Learn More
         </a>
       </div>

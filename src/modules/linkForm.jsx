@@ -3,55 +3,11 @@ import { Mutation } from 'react-apollo';
 import $ from 'jquery';
 import toastr from 'toastr';
 import axios from 'axios';
-import { string, object } from 'yup';
 import FormGroup from '../components/formGroup';
 import { CREATE_LINK, FEED_QUERY } from '../graphql';
 import { imageIcon } from '../images';
-
-const formData = (title, url, id) => [
-  {
-    name: 'title',
-    type: 'text',
-    placeholder: 'Enter the title of link',
-    icon: 'fa-text-width',
-    required: 'required',
-    value: title,
-    key: 'randomtitle',
-  },
-  {
-    name: 'url',
-    type: 'text',
-    placeholder: 'Enter the url of link',
-    icon: 'fa-link',
-    required: 'required',
-    value: url,
-    key: 'randomUrl',
-  },
-  {
-    text: 'Display pic',
-    name: 'imageUrl',
-    type: 'file',
-    placeholder: 'Enter the url of link',
-    icon: 'fa-camera',
-    required: 'required',
-    id,
-    key: 'randomImageUrl',
-  },
-];
-const folder = 'news-link/dev/news';
-const imageFormData = (file, publicId) => ({
-  file,
-  tags: 'news-links',
-  upload_preset: process.env.REACT_APP_UPLOAD_PRESET,
-  api_key: process.env.REACT_APP_API_KEY,
-  folder,
-  public_id: publicId,
-});
-
-const uploadErrors = {
-  400: 'Invalid image file format',
-  401: 'Unauthorized transaction',
-};
+import LinkSchema from '../schemas/linkSchema';
+import { linkFormInputs, linkImageData, errorObject } from '../utils';
 
 export default class LinkForm extends React.Component {
   state = {
@@ -68,24 +24,14 @@ export default class LinkForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  validateInput = async () => {
-    const { title, description, url } = this.state;
-    const schema = object().shape({
-      title: string()
-        .min(4)
-        .max(100),
-      description: string()
-        .min(10)
-        .max(250)
-        .required(),
-      url: string().url(),
-    });
-    await schema.validate({ title, description, url }, { abortEarly: false }).catch((error) => {
-      error.errors.forEach((errorMessage) => {
-        toastr.error(errorMessage);
-      });
-      throw new Error(error.message);
-    });
+  validateInput = () => {
+    const { title, description, url, file } = this.state;
+    const { size, type } = file;
+    const schema = LinkSchema;
+    return schema.validate(
+      { title, description, url, file: type, fileSize: size },
+      { abortEarly: false },
+    );
   };
 
   submitForm = async (e, postLink) => {
@@ -96,9 +42,13 @@ export default class LinkForm extends React.Component {
       await postLink();
       $('#createLink').modal('hide');
       toastr.success('Successfully created');
+      this.setState({ hide: 'd-none' });
     } catch (error) {
-      // console.log('error>>>>>>>>>', error.graphQLErrors[0].data);
-      toastr.error(error.code);
+      const errors = errorObject(error);
+      for (const item in errors) {
+        if (item in error) errors[item]();
+      }
+      this.setState({ hide: 'd-none' });
     }
   };
 
@@ -115,20 +65,14 @@ export default class LinkForm extends React.Component {
     } else {
       const imageData = new FormData();
       const publicId = `${Date.now()}-${file.name}`;
-      const imageFields = imageFormData(file, publicId);
+      const imageFields = linkImageData(file, publicId);
       for (const item in imageFields) {
         imageData.append(item, imageFields[item]);
       }
       this.setState({ hide: null });
-      try {
-        const { data } = await axios.post(process.env.REACT_APP_UPLOAD_URL, imageData);
-        this.setState({ imageUrl: data.secure_url, hide: 'd-none' });
-        toastr.success('Successfully uploaded image');
-      } catch (error) {
-        const status = error.response && error.response.status;
-        toastr.error(uploadErrors[status] || error.message, 'An error occured');
-        this.setState({ hide: 'd-none' });
-      }
+      const { data } = await axios.post(process.env.REACT_APP_UPLOAD_URL, imageData);
+      this.setState({ imageUrl: data.secure_url });
+      return toastr.success('Successfully uploaded image');
     }
   };
 
@@ -153,7 +97,7 @@ export default class LinkForm extends React.Component {
                 <img className="link-dp" src={image.length ? image : imageIcon} alt="link-icon" />
               </div>
               <div className="col-sm-8">
-                {formData(title, url, 'linkImageInput').map(input => (
+                {linkFormInputs(title, url).map(input => (
                   <React.Fragment key={input.key}>
                     {input.text}
                     <FormGroup

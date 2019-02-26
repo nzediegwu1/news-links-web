@@ -105,10 +105,6 @@ div.transbox {
   width: 50px;
   margin-right: 2em;
 }
-.card-title,
-.card-text {
-  color: black;
-}
 .navbar-nav li {
   padding-right: 0.5em;
 }
@@ -189,7 +185,7 @@ body {
 .masonry-brick {
   flex: auto;
   width: 250px;
-  margin: 0 8px 8px 0; /* Some gutter */
+  margin: 0.5em;
 }
 
 .input-group .fa {
@@ -219,11 +215,7 @@ form {
   color: black;
 }
 .card-content {
-  max-width: 40%;
   margin: auto;
-}
-.card-body {
-  max-height: 80%;
 }
 .description {
   margin-bottom: 0.3em;
@@ -233,4 +225,14 @@ form {
 }
 .col-sm-4.text-center {
   padding: 0em;
+}
+.card-body {
+  padding: 0.5em;
+}
+.card-title,
+.card-text {
+  color: black;
+}
+.card-title {
+  margin-top: 0.3em;
 }
