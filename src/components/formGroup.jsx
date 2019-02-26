@@ -8,7 +8,6 @@ export default function FormGroup(props) {
       <div className="input-group input-group-lg">
         <i className={`fa ${icon}`} />
         <input
-          id={`input-${id}`}
           name={name}
           value={value}
           onChange={onChange}

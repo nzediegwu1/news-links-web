@@ -61,19 +61,18 @@ export default class LinkForm extends React.Component {
   uploadToCloudinary = async () => {
     const { file } = this.state;
     if (!file) {
-      toastr.error('No image selected', 'An error occured');
-    } else {
-      const imageData = new FormData();
-      const publicId = `${Date.now()}-${file.name}`;
-      const imageFields = linkImageData(file, publicId);
-      for (const item in imageFields) {
-        imageData.append(item, imageFields[item]);
-      }
-      this.setState({ hide: null });
-      const { data } = await axios.post(process.env.REACT_APP_UPLOAD_URL, imageData);
-      this.setState({ imageUrl: data.secure_url });
-      return toastr.success('Successfully uploaded image');
+      return toastr.error('No image selected', 'An error occured');
     }
+    const imageData = new FormData();
+    const publicId = `${Date.now()}-${file.name}`;
+    const imageFields = linkImageData(file, publicId);
+    for (const item in imageFields) {
+      imageData.append(item, imageFields[item]);
+    }
+    this.setState({ hide: null });
+    const { data } = await axios.post(process.env.REACT_APP_UPLOAD_URL, imageData);
+    this.setState({ imageUrl: data.secure_url });
+    return toastr.success('Successfully uploaded image');
   };
 
   handleImageSelect = (event) => {
@@ -108,7 +107,6 @@ export default class LinkForm extends React.Component {
                       type={input.type}
                       placeholder={input.placeholder}
                       icon={input.icon}
-                      id={input.id}
                     />
                   </React.Fragment>
                 ))}
