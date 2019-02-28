@@ -30,6 +30,38 @@ export const linkFormInputs = (title, url) => [
     key: 'randomImageUrl',
   },
 ];
+export const userFormInputs = (email, password, extra) => [
+  ...extra,
+  {
+    value: email,
+    placeholder: 'Email',
+    type: 'email',
+    icon: 'fa fa-envelope',
+    name: 'email',
+  },
+  {
+    value: password,
+    type: 'password',
+    placeholder: 'Password',
+    icon: 'fa-lock',
+    name: 'password',
+  },
+];
+
+export const userFormType = {
+  login: {
+    buttonText: 'LOGIN',
+    linkText: 'SIGN UP',
+    text: "Don't have an account? ",
+    url: '/signup',
+  },
+  signup: {
+    buttonText: 'SIGN UP',
+    linkText: 'LOGIN',
+    text: 'Already have an account? ',
+    url: '/',
+  },
+};
 
 export const linkImageData = (file, publicId) => ({
   file,

@@ -4,12 +4,9 @@ html {
 }
 
 .background {
-  /* The image used */
   background-image: url("../images/news-link.jpg");
-  /* Full height */
   height: 100%;
   background-color: rgb(26, 37, 74);
-  /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -27,11 +24,11 @@ div.transbox {
   text-align: center;
 }
 .site-info {
-  font-size: 2.8em;
+  font-size: 2em;
   color: black;
 }
 .header {
-  font-size: 5.5em;
+  font-size: 4.5em;
   color: black;
 }
 .onboard {
@@ -60,7 +57,7 @@ div.transbox {
   width: 100%;
 }
 .col-sm-7.home-text {
-  padding-top: 5%;
+  padding-top: 6%;
 }
 .login-panel input.form-control {
   color: white;
@@ -235,4 +232,16 @@ form {
 }
 .card-title {
   margin-top: 0.3em;
+}
+@media screen and (max-width: 575px) {
+  .home-text {
+    display: none;
+  }
+}
+.signup-link {
+  margin-top: 1em;
+  color: white;
+}
+.signup-link a {
+  color: lightgreen
 }

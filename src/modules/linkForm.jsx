@@ -20,6 +20,10 @@ export default class LinkForm extends React.Component {
     imageUrl: '',
   };
 
+  componentWillUnmount() {
+    $('#createLink').modal('hide');
+  }
+
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
