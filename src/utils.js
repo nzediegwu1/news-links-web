@@ -50,13 +50,13 @@ export const userFormInputs = (email, password, extra) => [
 
 export const userFormType = {
   login: {
-    buttonText: 'LOGIN',
+    action: 'LOGIN',
     linkText: 'SIGN UP',
     text: "Don't have an account? ",
     url: '/signup',
   },
   signup: {
-    buttonText: 'SIGN UP',
+    action: 'SIGN UP',
     linkText: 'LOGIN',
     text: 'Already have an account? ',
     url: '/',
@@ -77,7 +77,9 @@ export const errorObject = ({ errors, graphQLErrors }) => ({
     toastr.error(errorMessage);
   }),
   response: () => toastr.error('Invalid image file'),
-  graphQLErrors: () => Object.values(graphQLErrors[0].data).forEach((instance) => {
-    toastr.error(instance.message);
-  }),
+  graphQLErrors: () => {
+    const { data, message } = graphQLErrors[0];
+    if (data) return Object.values(data).forEach(instance => toastr.error(instance.message));
+    return toastr.error(message);
+  },
 });

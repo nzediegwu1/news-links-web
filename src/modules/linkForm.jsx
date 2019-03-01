@@ -6,7 +6,7 @@ import axios from 'axios';
 import FormGroup from '../components/formGroup';
 import { CREATE_LINK, FEED_QUERY } from '../graphql';
 import { imageIcon } from '../images';
-import LinkSchema from '../schemas/linkSchema';
+import { LinkSchema } from '../schemas';
 import { linkFormInputs, linkImageData, errorObject } from '../utils';
 
 export default class LinkForm extends React.Component {

@@ -2,9 +2,11 @@ import { string, object, mixed, number } from 'yup';
 
 export default object().shape({
   title: string()
+    .trim()
     .min(4)
     .max(100),
   description: string()
+    .trim()
     .min(10)
     .max(250)
     .required(),
