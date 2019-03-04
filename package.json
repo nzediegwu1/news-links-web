@@ -13,7 +13,6 @@
     "apollo-link-http": "^1.5.9",
     "apollo-link-state": "^0.4.2",
     "axios": "^0.18.0",
-    "babel-loader": "^8.0.4",
     "bootstrap": "^4.1.3",
     "css-loader": "^1.0.1",
     "font-awesome": "^4.7.0",
