@@ -3,12 +3,10 @@ import { Link, Switch, Route } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import toastr from 'toastr';
 import { SIGNUP, LOGIN } from '../graphql';
-import Button from '../components/button';
-import FormGroup from '../components/formGroup';
-import SocialAuths from '../components/socialAuths';
+import { Button, FormGroup, SocialAuths } from '../components';
 import { siteInfo } from '../messages/info';
 import { UserSchema } from '../schemas';
-import { userFormInputs, userFormType, errorObject } from '../utils';
+import { userFormInputs, userFormType, handleErrors } from '../utils';
 
 export default class Home extends React.Component {
   state = {
@@ -16,7 +14,7 @@ export default class Home extends React.Component {
     password: '',
     name: '',
     context: 'LOGIN',
-    hide: 'd-none',
+    spinner: 'd-none',
   };
 
   LeftColumn = () => {
@@ -45,21 +43,18 @@ export default class Home extends React.Component {
   handleSubmit = async (e, signup, context) => {
     e.preventDefault();
     try {
-      await this.setState({ hide: null });
+      await this.setState({ spinner: null });
       await this.validateInput(context);
       const response = await signup();
       toastr.success(`${context} Successful`);
       const { data } = response;
       const actionType = this.handleContext()[context].mutator;
       localStorage.token = data[actionType].token;
-      this.setState({ hide: 'd-none' });
+      this.setState({ spinner: 'd-none' });
       this.props.history.push('/links');
     } catch (error) {
-      const errors = errorObject(error);
-      for (const item in errors) {
-        if (item in error) errors[item]();
-      }
-      this.setState({ hide: 'd-none' });
+      handleErrors(error);
+      this.setState({ spinner: 'd-none' });
     }
   };
 
@@ -80,7 +75,7 @@ export default class Home extends React.Component {
   };
 
   userForm = (inputs, type) => {
-    const { hide } = this.state;
+    const { spinner } = this.state;
     const context = this.handleContext()[type.action];
     return (
       <Mutation errorPolicy="all" variables={context.data} mutation={context.mutation}>
@@ -99,11 +94,7 @@ export default class Home extends React.Component {
               />
             ))}
             <div className="form-group">
-              <button type="submit" className="btn-lg btn-light">
-                <i className={`fa fa-spinner fa-pulse ${hide}`} />
-                &nbsp;
-                {type.action}
-              </button>
+              <Button text={type.action} type="submit" css="btn-lg btn-light" spinner={spinner} />
             </div>
             <p className="text-center">OR</p>
             <SocialAuths />

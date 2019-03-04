@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import toastr from 'toastr';
-import Button from '../components/button';
-import CreateLinkModal from '../components/modal';
+import { Button, Modal } from '../components';
 import LinkForm from './linkForm';
 import { FEED_QUERY } from '../graphql';
 
@@ -109,7 +108,7 @@ export default class LinksPage extends Component {
                 <a data-toggle="modal" data-target="#createLink" className="float">
                   <i className="fa fa-plus my-float" />
                 </a>
-                <CreateLinkModal id="createLink" title="Create News Link" render={<LinkForm />} />
+                <Modal id="createLink" title="Create News Link" render={<LinkForm />} />
               </React.Fragment>
             );
           }}

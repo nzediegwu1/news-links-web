@@ -83,3 +83,10 @@ export const errorObject = ({ errors, graphQLErrors }) => ({
     return toastr.error(message);
   },
 });
+
+export function handleErrors(error) {
+  const errors = errorObject(error);
+  for (const item in errors) {
+    if (item in error) errors[item]();
+  }
+}

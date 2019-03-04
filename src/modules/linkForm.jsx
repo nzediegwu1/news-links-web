@@ -3,11 +3,11 @@ import { Mutation } from 'react-apollo';
 import $ from 'jquery';
 import toastr from 'toastr';
 import axios from 'axios';
-import FormGroup from '../components/formGroup';
+import { FormGroup, Button } from '../components';
 import { CREATE_LINK, FEED_QUERY } from '../graphql';
 import { imageIcon } from '../images';
 import { LinkSchema } from '../schemas';
-import { linkFormInputs, linkImageData, errorObject } from '../utils';
+import { linkFormInputs, linkImageData, handleErrors } from '../utils';
 
 export default class LinkForm extends React.Component {
   state = {
@@ -16,7 +16,7 @@ export default class LinkForm extends React.Component {
     url: '',
     file: '',
     image: '',
-    hide: 'd-none',
+    spinner: 'd-none',
     imageUrl: '',
   };
 
@@ -46,13 +46,10 @@ export default class LinkForm extends React.Component {
       await postLink();
       $('#createLink').modal('hide');
       toastr.success('Successfully created');
-      this.setState({ hide: 'd-none' });
+      this.setState({ spinner: 'd-none' });
     } catch (error) {
-      const errors = errorObject(error);
-      for (const item in errors) {
-        if (item in error) errors[item]();
-      }
-      this.setState({ hide: 'd-none' });
+      handleErrors(error);
+      this.setState({ spinner: 'd-none' });
     }
   };
 
@@ -73,7 +70,7 @@ export default class LinkForm extends React.Component {
     for (const item in imageFields) {
       imageData.append(item, imageFields[item]);
     }
-    this.setState({ hide: null });
+    this.setState({ spinner: null });
     const { data } = await axios.post(process.env.REACT_APP_UPLOAD_URL, imageData);
     this.setState({ imageUrl: data.secure_url });
     return toastr.success('Successfully uploaded image');
@@ -89,7 +86,7 @@ export default class LinkForm extends React.Component {
   };
 
   render() {
-    const { title, description, url, imageUrl, image, hide } = this.state;
+    const { title, description, url, imageUrl, image, spinner } = this.state;
     const data = { title, description, url, imageUrl };
     return (
       <Mutation mutation={CREATE_LINK} errorPolicy="all" variables={data} update={this.updateState}>
@@ -124,10 +121,7 @@ export default class LinkForm extends React.Component {
                     aria-label="With textarea"
                   />
                 </div>
-                <button type="submit" className="btn btn-primary createLink">
-                  <i className={`fa fa-spinner fa-pulse ${hide}`} />
-                  &nbsp; Submit
-                </button>
+                <Button text="Submit" type="submit" css="btn-primary createLink" spinner={spinner} />
               </div>
             </div>
           </form>
