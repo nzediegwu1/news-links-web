@@ -2,10 +2,11 @@ import React from 'react';
 import propTypes from 'prop-types';
 /* eslint-disable react/button-has-type */
 export default function Button(props) {
-  const { text, css, action, dismiss, type = 'button' } = props;
+  const { text, css, action, spinner = 'd-none', dismiss, type = 'button' } = props;
   return (
-    <button type={type} data-dismiss={dismiss} onClick={action} className={`btn ${css}`}>
-      {text}
+    <button type={type} className={`btn ${css}`} data-dismiss={dismiss} onClick={action}>
+      <i className={`fa fa-spinner fa-pulse ${spinner}`} />
+      {` ${text}`}
     </button>
   );
 }

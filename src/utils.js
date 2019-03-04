@@ -30,6 +30,38 @@ export const linkFormInputs = (title, url) => [
     key: 'randomImageUrl',
   },
 ];
+export const userFormInputs = (email, password, extra) => [
+  ...extra,
+  {
+    value: email,
+    placeholder: 'Email',
+    type: 'email',
+    icon: 'fa fa-envelope',
+    name: 'email',
+  },
+  {
+    value: password,
+    type: 'password',
+    placeholder: 'Password',
+    icon: 'fa-lock',
+    name: 'password',
+  },
+];
+
+export const userFormType = {
+  login: {
+    action: 'LOGIN',
+    linkText: 'SIGN UP',
+    text: "Don't have an account? ",
+    url: '/signup',
+  },
+  signup: {
+    action: 'SIGN UP',
+    linkText: 'LOGIN',
+    text: 'Already have an account? ',
+    url: '/',
+  },
+};
 
 export const linkImageData = (file, publicId) => ({
   file,
@@ -45,7 +77,16 @@ export const errorObject = ({ errors, graphQLErrors }) => ({
     toastr.error(errorMessage);
   }),
   response: () => toastr.error('Invalid image file'),
-  graphQLErrors: () => Object.values(graphQLErrors[0].data).forEach((instance) => {
-    toastr.error(instance.message);
-  }),
+  graphQLErrors: () => {
+    const { data, message } = graphQLErrors[0];
+    if (data) return Object.values(data).forEach(instance => toastr.error(instance.message));
+    return toastr.error(message);
+  },
 });
+
+export function handleErrors(error) {
+  const errors = errorObject(error);
+  for (const item in errors) {
+    if (item in error) errors[item]();
+  }
+}

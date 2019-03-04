@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import Button from '../components/button';
-import CreateLinkModal from '../components/modal';
+import toastr from 'toastr';
+import { Button, Modal } from '../components';
 import LinkForm from './linkForm';
 import { FEED_QUERY } from '../graphql';
 
@@ -48,6 +48,11 @@ export default class LinksPage extends Component {
     </a>
   );
 
+  logout = () => {
+    this.props.history.push('/');
+    toastr.success('Thanks for using News-Link');
+  };
+
   navBar = () => (
     <nav className="navbar navbar-expand-md sticky-top navbar-dark bg-dark">
       {this.link('NewsLink', 'navbar-brand')}
@@ -68,6 +73,7 @@ export default class LinksPage extends Component {
           <input className="form-control mr-sm-2" type="search" placeholder="Search" />
           <Button text="Search" css="btn-outline-secondary my-2 my-sm-0" />
         </form>
+        <Button text=" Logout" action={this.logout} css="btn-outline-secondary fa fa-power-off" />
       </div>
     </nav>
   );
@@ -102,7 +108,7 @@ export default class LinksPage extends Component {
                 <a data-toggle="modal" data-target="#createLink" className="float">
                   <i className="fa fa-plus my-float" />
                 </a>
-                <CreateLinkModal id="createLink" title="Create News Link" render={<LinkForm />} />
+                <Modal id="createLink" title="Create News Link" render={<LinkForm />} />
               </React.Fragment>
             );
           }}
