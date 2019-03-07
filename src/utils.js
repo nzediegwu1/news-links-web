@@ -1,12 +1,11 @@
 import toastr from 'toastr';
 
-export const linkFormInputs = (title, url) => [
+export const linkFormInputs = (title, url, ref) => [
   {
     name: 'title',
     type: 'text',
     placeholder: 'Enter the title of link',
     icon: 'fa-text-width',
-    required: 'required',
     value: title,
     key: 'randomtitle',
   },
@@ -15,7 +14,6 @@ export const linkFormInputs = (title, url) => [
     type: 'text',
     placeholder: 'Enter the url of link',
     icon: 'fa-link',
-    required: 'required',
     value: url,
     key: 'randomUrl',
   },
@@ -23,9 +21,9 @@ export const linkFormInputs = (title, url) => [
     text: 'Display pic',
     name: 'imageUrl',
     type: 'file',
+    ref,
     placeholder: 'Enter the url of link',
     icon: 'fa-camera',
-    required: 'required',
     id: 'linkImageInput',
     key: 'randomImageUrl',
   },
@@ -90,3 +88,11 @@ export function handleErrors(error) {
     if (item in error) errors[item]();
   }
 }
+
+export const navItems = ['Users', 'Links', 'Picks']; // add icons for each item
+
+export const navOptions = [
+  { class: 'nav-item nav-link active', text: 'Popular' },
+  { class: 'nav-item nav-link', text: 'Latest' },
+  { class: 'nav-item nav-link', text: 'Oldest' },
+];

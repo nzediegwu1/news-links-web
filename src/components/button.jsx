@@ -2,11 +2,32 @@ import React from 'react';
 import propTypes from 'prop-types';
 /* eslint-disable react/button-has-type */
 export default function Button(props) {
-  const { text, css, action, spinner = 'd-none', dismiss, type = 'button' } = props;
+  const { text, css, action, spinner = 'd-none', dismiss, type = 'button', disable } = props;
   return (
-    <button type={type} className={`btn ${css}`} data-dismiss={dismiss} onClick={action}>
+    <button
+      type={type}
+      disabled={disable}
+      className={`btn ${css}`}
+      data-dismiss={dismiss}
+      onClick={action}
+    >
       <i className={`fa fa-spinner fa-pulse ${spinner}`} />
       {` ${text}`}
+    </button>
+  );
+}
+
+export function ModalButton({ click, toggle = 'modal', target, css, icon }) {
+  return (
+    <button
+      onClick={click}
+      type="button"
+      data-toggle={toggle}
+      data-target={target}
+      className={css}
+      aria-expanded="false"
+    >
+      <i className={icon} />
     </button>
   );
 }

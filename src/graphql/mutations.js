@@ -13,6 +13,25 @@ export const createLink = gql`
   }
 `;
 
+export const updateLink = gql`
+  mutation UpdateMutation(
+    $id: ID!
+    $title: String
+    $description: String
+    $url: String
+    $imageUrl: String
+  ) {
+    updateLink(id: $id, title: $title, description: $description, url: $url, imageUrl: $imageUrl) {
+      id
+      title
+      description
+      url
+      imageUrl
+      createdAt
+    }
+  }
+`;
+
 export const signup = gql`
   mutation Signup($name: String!, $email: String!, $password: String!) {
     signup(name: $name, email: $email, password: $password) {
