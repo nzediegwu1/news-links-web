@@ -1,110 +1,50 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
-import $ from 'jquery';
-import toastr from 'toastr';
-import axios from 'axios';
 import { FormGroup, Button } from '../components';
-import { CREATE_LINK, FEED_QUERY } from '../graphql';
+import { CREATE_LINK, FEED_QUERY, UPDATE_LINK } from '../graphql';
 import { imageIcon } from '../images';
-import { LinkSchema } from '../schemas';
-import { linkFormInputs, linkImageData, handleErrors } from '../utils';
+import { linkFormInputs } from '../utils';
+
+const type = {
+  true: UPDATE_LINK,
+  false: CREATE_LINK,
+};
 
 export default class LinkForm extends React.Component {
-  state = {
-    title: '',
-    description: '',
-    url: '',
-    file: '',
-    image: '',
-    spinner: 'd-none',
-    imageUrl: '',
-  };
-
-  componentWillUnmount() {
-    $('#createLink').modal('hide');
-  }
-
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  validateInput = () => {
-    const { title, description, url, file } = this.state;
-    const { size, type } = file;
-    const schema = LinkSchema;
-    return schema.validate(
-      { title, description, url, file: type, fileSize: size },
-      { abortEarly: false },
-    );
-  };
-
-  submitForm = async (e, postLink) => {
-    e.preventDefault();
-    try {
-      await this.validateInput();
-      await this.uploadToCloudinary();
-      await postLink();
-      $('#createLink').modal('hide');
-      toastr.success('Successfully created');
-      this.setState({ spinner: 'd-none' });
-    } catch (error) {
-      handleErrors(error);
-      this.setState({ spinner: 'd-none' });
-    }
-  };
-
-  updateState = (store, { data: { postLink } }) => {
+  updateState = (store, { data: { postLink, updateLink } }) => {
+    const { state } = this.props;
     const data = store.readQuery({ query: FEED_QUERY });
-    data.feed.links.unshift(postLink);
+    if (postLink) data.feed.links.unshift(postLink);
+    if (updateLink) {
+      const linkIndex = data.feed.links.findIndex(link => link.id === state.id);
+      data.feed.links.splice(linkIndex, 1, updateLink);
+    }
     store.writeQuery({ query: FEED_QUERY, data });
   };
 
-  uploadToCloudinary = async () => {
-    const { file } = this.state;
-    if (!file) {
-      return toastr.error('No image selected', 'An error occured');
-    }
-    const imageData = new FormData();
-    const publicId = `${Date.now()}-${file.name}`;
-    const imageFields = linkImageData(file, publicId);
-    for (const item in imageFields) {
-      imageData.append(item, imageFields[item]);
-    }
-    this.setState({ spinner: null });
-    const { data } = await axios.post(process.env.REACT_APP_UPLOAD_URL, imageData);
-    this.setState({ imageUrl: data.secure_url });
-    return toastr.success('Successfully uploaded image');
-  };
-
-  handleImageSelect = (event) => {
-    const { image } = this.state;
-    URL.revokeObjectURL(image);
-    this.setState({
-      image: event.target.files[0] ? URL.createObjectURL(event.target.files[0]) : '',
-      file: event.target.files[0],
-    });
-  };
-
   render() {
-    const { title, description, url, imageUrl, image, spinner } = this.state;
-    const data = { title, description, url, imageUrl };
+    const { state, filePath, handleImageSelect, handleChange, submitForm } = this.props;
+    const { id, title, description, url, imageUrl, image, spinner, edit, disable } = state;
+    let data = { title, description, url, imageUrl };
+    data = edit ? { id, ...data } : data;
     return (
-      <Mutation mutation={CREATE_LINK} errorPolicy="all" variables={data} update={this.updateState}>
-        {postLink => (
-          <form onSubmit={e => this.submitForm(e, postLink)} id="addLink">
+      <Mutation mutation={type[edit]} errorPolicy="all" variables={data} update={this.updateState}>
+        {mutationAction => (
+          <form onSubmit={e => submitForm(e, mutationAction)}>
             <div className="row">
               <div className="col-sm-4 text-center">
                 <img className="link-dp" src={image.length ? image : imageIcon} alt="link-icon" />
               </div>
               <div className="col-sm-8">
-                {linkFormInputs(title, url).map(input => (
+                {linkFormInputs(title, url, filePath).map(input => (
                   <React.Fragment key={input.key}>
                     {input.text}
                     <FormGroup
                       name={input.name}
-                      required={input.required}
+                      required={edit && input.type === 'file' ? null : 'required'}
                       value={input.value}
-                      onChange={input.type === 'file' ? this.handleImageSelect : this.handleChange}
+                      file={input.ref}
+                      onChange={input.type === 'file' ? handleImageSelect : handleChange}
                       type={input.type}
                       placeholder={input.placeholder}
                       icon={input.icon}
@@ -115,13 +55,19 @@ export default class LinkForm extends React.Component {
                 <div className="input-group">
                   <textarea
                     name="description"
-                    onChange={this.handleChange}
-                    value={description}
+                    onChange={handleChange}
                     className="form-control"
                     aria-label="With textarea"
+                    value={description}
                   />
                 </div>
-                <Button text="Submit" type="submit" css="btn-primary createLink" spinner={spinner} />
+                <Button
+                  text="Submit"
+                  type="submit"
+                  css="btn-primary createLink"
+                  spinner={spinner}
+                  disable={disable}
+                />
               </div>
             </div>
           </form>

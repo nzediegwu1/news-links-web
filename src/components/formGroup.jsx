@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function FormGroup(props) {
-  const { id, type, placeholder, required, value, icon, onChange, name } = props;
+  const { id, type, placeholder, required, value, icon, onChange, name, file } = props;
   return (
     <div id={id} className="form-group">
       <div className="input-group input-group-lg">
@@ -10,6 +10,7 @@ export default function FormGroup(props) {
         <input
           name={name}
           value={value}
+          ref={file}
           onChange={onChange}
           type={type}
           required={required}

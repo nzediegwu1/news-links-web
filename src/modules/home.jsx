@@ -15,6 +15,7 @@ export default class Home extends React.Component {
     name: '',
     context: 'LOGIN',
     spinner: 'd-none',
+    disable: false,
   };
 
   LeftColumn = () => {
@@ -43,18 +44,18 @@ export default class Home extends React.Component {
   handleSubmit = async (e, signup, context) => {
     e.preventDefault();
     try {
-      await this.setState({ spinner: null });
+      await this.setState({ spinner: null, disable: true });
       await this.validateInput(context);
       const response = await signup();
       toastr.success(`${context} Successful`);
       const { data } = response;
       const actionType = this.handleContext()[context].mutator;
       localStorage.token = data[actionType].token;
-      this.setState({ spinner: 'd-none' });
+      this.setState({ spinner: 'd-none', disable: false });
       this.props.history.push('/links');
     } catch (error) {
       handleErrors(error);
-      this.setState({ spinner: 'd-none' });
+      this.setState({ spinner: 'd-none', disable: false });
     }
   };
 
@@ -75,7 +76,7 @@ export default class Home extends React.Component {
   };
 
   userForm = (inputs, type) => {
-    const { spinner } = this.state;
+    const { spinner, disable } = this.state;
     const context = this.handleContext()[type.action];
     return (
       <Mutation errorPolicy="all" variables={context.data} mutation={context.mutation}>
@@ -94,7 +95,13 @@ export default class Home extends React.Component {
               />
             ))}
             <div className="form-group">
-              <Button text={type.action} type="submit" css="btn-lg btn-light" spinner={spinner} />
+              <Button
+                text={type.action}
+                type="submit"
+                disable={disable}
+                css="btn-lg btn-light"
+                spinner={spinner}
+              />
             </div>
             <p className="text-center">OR</p>
             <SocialAuths />
