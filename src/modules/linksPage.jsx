@@ -2,9 +2,10 @@
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import axios from 'axios';
-import { Button, Modal, ModalButton } from '../components';
+import { Button, Modal, ModalButton, DeleteForm } from '../components';
 import { LinkSchema } from '../schemas';
 import LinkForm from './linkForm';
 import { FEED_QUERY } from '../graphql';
@@ -18,6 +19,7 @@ const defaultState = {
   url: '',
   image: '',
   imageUrl: '',
+  imagePublicId: '',
   edit: false,
   file: '',
   disable: false,
@@ -82,13 +84,22 @@ export default class LinksPage extends Component {
       }
       this.setState({ spinner: null, disable: true });
       const { data } = await axios.post(process.env.REACT_APP_UPLOAD_URL, imageData);
-      this.setState({ imageUrl: data.secure_url });
-      return toastr.success('Successfully uploaded image');
+      this.setState({ imageUrl: data.secure_url, imagePublicId: data.public_id });
     }
   };
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  deleteLink = async (deleteLink) => {
+    try {
+      await deleteLink();
+      toastr.success('Successfully deleted!');
+      $('#deleteLink').modal('hide');
+    } catch (error) {
+      handleErrors(error);
+    }
   };
 
   ManageLink = props => (
@@ -99,32 +110,37 @@ export default class LinksPage extends Component {
         target="#createLink"
         click={() => this.editLink(props)}
       />
-      <button type="button" className="btn delete-link">
-        <i className="fa fa-trash" />
-      </button>
+      <ModalButton
+        click={() => this.setState({ id: props.id })}
+        css="btn delete-link"
+        icon="fa fa-trash"
+        target="#deleteLink"
+      />
     </React.Fragment>
   );
 
-  card = ({ id, imageUrl, title, description, url }) => (
-    <div key={id} className="card masonry-brick">
-      <div className="card-body">
-        <div className="card-content">
-          <img className="card-img-top" src={imageUrl} alt="news_link" />
-          <h5 className="card-title">{title}</h5>
-          <p className="card-text">{description}</p>
+  card = props => (
+    <div key={props.id} className="col-lg-3 col-md-4 col-sm-6">
+      <div key={props.id} className="feature">
+        <div className="card-body">
+          <div className="card-content">
+            <img className="card-img-top" src={props.imageUrl} alt="news_link" />
+            <h5 className="card-title">{props.title}</h5>
+            <p className="card-text">{props.description}</p>
+          </div>
         </div>
-      </div>
-      <div className="card-footer">
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn link-url btn-sm"
-          role="button"
-        >
-          Learn More
-        </a>
-        {this.ManageLink({ id, imageUrl, title, description, url, image: imageUrl })}
+        <div className="card-footer">
+          <a
+            href={props.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn link-url btn-sm"
+            role="button"
+          >
+            Learn More
+          </a>
+          {this.ManageLink({ ...props, image: props.imageUrl })}
+        </div>
       </div>
     </div>
   );
@@ -194,17 +210,27 @@ export default class LinksPage extends Component {
             if (loading) return <div className="error">loading...</div>;
             if (error) {
               return (
-                <div className="error">
-                  <i className="fa fa-warning" />
-                  <br />
-                  <p>{error.message}</p>
+                <div className="error-template">
+                  <h1>
+                    <i className="fa fa-warning" />
+                    Oops!
+                  </h1>
+                  <h2>A server error occured</h2>
+                  <div className="error-details">{error.message}</div>
+                  <div className="error-actions">
+                    <Link to="/" className="btn btn-primary btn-lg">
+                      <span className="glyphicon glyphicon-home" />
+                      Take Me Home
+                    </Link>
+                  </div>
                 </div>
               );
             }
             const linksToRender = data.feed.links;
+            const { id } = this.state;
             return (
-              <React.Fragment>
-                <div className="masonry">{linksToRender.map(link => this.card(link))}</div>
+              <div className="row news-links">
+                {linksToRender.map(link => this.card(link))}
                 <ModalButton
                   css="float"
                   icon="fa fa-plus"
@@ -224,7 +250,12 @@ export default class LinksPage extends Component {
                     />
 )}
                 />
-              </React.Fragment>
+                <Modal
+                  id="deleteLink"
+                  title="Delete News Link"
+                  render={<DeleteForm id={id} deleteAction={this.deleteLink} />}
+                />
+              </div>
             );
           }}
         </Query>

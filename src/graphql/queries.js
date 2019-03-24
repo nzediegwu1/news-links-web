@@ -10,6 +10,7 @@ export const getFeed = gql`
         description
         url
         imageUrl
+        imagePublicId
         createdAt
       }
     }

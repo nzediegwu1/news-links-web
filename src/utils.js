@@ -70,15 +70,21 @@ export const linkImageData = (file, publicId) => ({
   public_id: publicId,
 });
 
-export const errorObject = ({ errors, graphQLErrors }) => ({
+const unauthoried = 'Unauthorized, please login!';
+const errorMessages = {
+  'invalid signature': unauthoried,
+  'GraphQL error: invalid signature': unauthoried,
+};
+
+export const errorObject = ({ errors, graphQLErrors, message: errMessage }) => ({
   errors: () => errors.forEach((errorMessage) => {
     toastr.error(errorMessage);
   }),
-  response: () => toastr.error('Invalid image file'),
+  response: () => toastr.error(errMessage),
   graphQLErrors: () => {
     const { data, message } = graphQLErrors[0];
     if (data) return Object.values(data).forEach(instance => toastr.error(instance.message));
-    return toastr.error(message);
+    return toastr.error(errorMessages[message] || message);
   },
 });
 

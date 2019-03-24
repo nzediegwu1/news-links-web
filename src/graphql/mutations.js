@@ -1,13 +1,26 @@
 import gql from 'graphql-tag';
 
 export const createLink = gql`
-  mutation PostMutation($title: String!, $description: String!, $url: String!, $imageUrl: String!) {
-    postLink(title: $title, description: $description, url: $url, imageUrl: $imageUrl) {
+  mutation PostMutation(
+    $title: String!
+    $description: String!
+    $url: String!
+    $imageUrl: String!
+    $imagePublicId: String!
+  ) {
+    postLink(
+      title: $title
+      description: $description
+      url: $url
+      imageUrl: $imageUrl
+      imagePublicId: $imagePublicId
+    ) {
       id
       title
       description
       url
       imageUrl
+      imagePublicId
       createdAt
     }
   }
@@ -20,14 +33,31 @@ export const updateLink = gql`
     $description: String
     $url: String
     $imageUrl: String
+    $imagePublicId: String
   ) {
-    updateLink(id: $id, title: $title, description: $description, url: $url, imageUrl: $imageUrl) {
+    updateLink(
+      id: $id
+      title: $title
+      description: $description
+      url: $url
+      imageUrl: $imageUrl
+      imagePublicId: $imagePublicId
+    ) {
       id
       title
       description
       url
       imageUrl
+      imagePublicId
       createdAt
+    }
+  }
+`;
+
+export const deleteLink = gql`
+  mutation DeleteLink($id: ID!) {
+    deleteLink(id: $id) {
+      id
     }
   }
 `;
