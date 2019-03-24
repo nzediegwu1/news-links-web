@@ -24,9 +24,9 @@ export default class LinkForm extends React.Component {
 
   render() {
     const { state, filePath, handleImageSelect, handleChange, submitForm } = this.props;
-    const { id, title, description, url, imageUrl, image, spinner, edit, disable } = state;
-    let data = { title, description, url, imageUrl };
-    data = edit ? { id, ...data } : data;
+    const { id, image, spinner, edit, disable, file, imageUrl, imagePublicId, ...linkData } = state;
+    let data = edit ? { id, ...linkData } : { imageUrl, imagePublicId, ...linkData };
+    if (edit) data = file === '' ? data : { imageUrl, imagePublicId, ...data };
     return (
       <Mutation mutation={type[edit]} errorPolicy="all" variables={data} update={this.updateState}>
         {mutationAction => (
@@ -36,7 +36,7 @@ export default class LinkForm extends React.Component {
                 <img className="link-dp" src={image.length ? image : imageIcon} alt="link-icon" />
               </div>
               <div className="col-sm-8">
-                {linkFormInputs(title, url, filePath).map(input => (
+                {linkFormInputs(linkData.title, linkData.url, filePath).map(input => (
                   <React.Fragment key={input.key}>
                     {input.text}
                     <FormGroup
@@ -58,7 +58,7 @@ export default class LinkForm extends React.Component {
                     onChange={handleChange}
                     className="form-control"
                     aria-label="With textarea"
-                    value={description}
+                    value={linkData.description}
                   />
                 </div>
                 <Button

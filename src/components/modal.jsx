@@ -4,7 +4,7 @@ import Button from './button';
 const Modal = (props) => {
   const { title, id, render } = props;
   return (
-    <div className="modal fade" id={id} tabIndex="-1" role="dialog" aria-hidden="true">
+    <div className="modal fade in" id={id} tabIndex="-1" role="dialog" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content">
           <div className="modal-header">
