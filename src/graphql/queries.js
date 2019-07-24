@@ -12,6 +12,9 @@ export const getFeed = gql`
         imageUrl
         imagePublicId
         createdAt
+        postedBy {
+          id
+        }
       }
     }
   }

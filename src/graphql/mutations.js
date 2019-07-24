@@ -77,3 +77,19 @@ export const login = gql`
     }
   }
 `;
+export const vote = gql`
+  mutation CastVote($linkId: ID!) {
+    vote(linkId: $linkId) {
+      id
+      link {
+        description
+        url
+      }
+      voter {
+        name
+        email
+      }
+    }
+  }
+`;
+// 

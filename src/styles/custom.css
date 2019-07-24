@@ -223,10 +223,15 @@ form {
 .signup-link a {
   color: lightgreen;
 }
+.card-footer {
+  padding-right: 0.3em;
+  padding-left: 0.3em;
+}
 .card-footer button {
   float: right;
   height: 2em;
-  margin-left: 0.2em;
+  padding-right: 0.3em;
+  padding-left: 0.3em;
 }
 .card-footer i {
   float: inherit;
@@ -235,6 +240,8 @@ form {
   color: #0054e7;
   background-color: #f8f9fa;
   border-color: #333a41;
+  padding-right: 0.3em;
+  padding-left: 0.3em;
 }
 .delete-link {
   color: #b51414;
@@ -305,4 +312,21 @@ form {
 }
 .error-actions .btn {
   margin-right: 10px;
+}
+.fa-heart-o {
+  margin-left: 0.5em;
+  color: blue;
+}
+.vote-count {
+  color: blue;
+  float: right;
+  line-height: 2;
+  font-size: 0.9em;
+}
+.fa-heart {
+  line-height: 1.2;
+}
+.vote-number {
+  font-size: 0.8em;
+  margin-right: 1.5em;
 }

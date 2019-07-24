@@ -95,7 +95,7 @@ export function handleErrors(error) {
   }
 }
 
-export const navItems = ['Users', 'Links', 'Picks']; // add icons for each item
+export const navItems = ['Profile', 'MyLinks', 'Liked']; // add icons for each item
 
 export const navOptions = [
   { class: 'nav-item nav-link active', text: 'Popular' },

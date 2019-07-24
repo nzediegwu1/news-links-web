@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 import { Button, Modal, ModalButton, DeleteForm } from '../components';
 import { LinkSchema } from '../schemas';
 import LinkForm from './linkForm';
@@ -102,22 +103,36 @@ export default class LinksPage extends Component {
     }
   };
 
-  ManageLink = props => (
-    <React.Fragment>
-      <ModalButton
-        css="btn link-url"
-        icon="fa fa-edit"
-        target="#createLink"
-        click={() => this.editLink(props)}
-      />
-      <ModalButton
-        click={() => this.setState({ id: props.id })}
-        css="btn delete-link"
-        icon="fa fa-trash"
-        target="#deleteLink"
-      />
-    </React.Fragment>
-  );
+  ManageLink = (props) => {
+    const token = localStorage.token || '';
+    const user = jwt.decode(token);
+    return (
+      <React.Fragment>
+        {user && user.id === props.postedBy.id ? (
+          <React.Fragment>
+            <ModalButton
+              css="link-url"
+              icon="fa fa-edit"
+              target="#createLink"
+              click={() => this.editLink(props)}
+            />
+            <ModalButton
+              click={() => this.setState({ id: props.id })}
+              css="delete-link"
+              icon="fa fa-trash"
+              target="#deleteLink"
+            />
+            <ModalButton text="345" css="link-url" icon="fa fa-heart" />
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <i className="fa fa-heart-o" />
+            <ModalButton text="345" css="link-url" icon="fa fa-heart" />
+          </React.Fragment>
+        )}
+      </React.Fragment>
+    );
+  };
 
   card = props => (
     <div key={props.id} className="col-lg-3 col-md-4 col-sm-6">
@@ -164,6 +179,7 @@ export default class LinksPage extends Component {
 
   logout = () => {
     this.props.history.push('/');
+    localStorage.clear();
     toastr.success('Thanks for using News-Link');
   };
 

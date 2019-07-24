@@ -17,17 +17,18 @@ export default function Button(props) {
   );
 }
 
-export function ModalButton({ click, toggle = 'modal', target, css, icon }) {
+export function ModalButton({ click, toggle = 'modal', target, css, icon, text = '' }) {
   return (
     <button
       onClick={click}
       type="button"
       data-toggle={toggle}
       data-target={target}
-      className={css}
+      className={`btn ${css}`}
       aria-expanded="false"
     >
       <i className={icon} />
+      <p className="vote-number">{text}</p>
     </button>
   );
 }
